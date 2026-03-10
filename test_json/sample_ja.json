@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "mission_id": "MSN_1002",
+    "enabled": true,
+    "priority": 2
+  },
+  "title": "暁の作戦",
+  "description": "日の出前に前哨基地を確保してください。",
+  "steps": [
+    {
+      "id": 1,
+      "text": "アリア隊長に話しかける。",
+      "hint": "司令テントの近くにいます。"
+    },
+    {
+      "id": 2,
+      "text": "エネルギーセルを5個集める。",
+      "hint": "門の後ろの保管エリアを確認してください。"
+    }
+  ],
+  "dialog": {
+    "npc_greeting": "おかえりなさい、司令官。",
+    "npc_warning": "敵は{minutes}分後に到着します。",
+    "player_reply": "準備はできています。"
+  },
+  "ui": {
+    "start_button": "ミッション開始",
+    "cancel_button": "キャンセル",
+    "empty_message": "   "
+  },
+  "rewards": {
+    "gold": 1200,
+    "exp": 280,
+    "label": "ミッション報酬"
+  }
+}

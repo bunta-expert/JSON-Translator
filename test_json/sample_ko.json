@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "mission_id": "MSN_1003",
+    "enabled": true,
+    "priority": 1
+  },
+  "title": "새벽 작전",
+  "description": "해가 뜨기 전에 전초 기지를 확보하세요.",
+  "steps": [
+    {
+      "id": 1,
+      "text": "아리아 대위와 대화한다.",
+      "hint": "지휘 천막 근처에 있습니다."
+    },
+    {
+      "id": 2,
+      "text": "에너지 셀 5개를 수집한다.",
+      "hint": "문 뒤쪽 보관 구역을 확인하세요."
+    }
+  ],
+  "dialog": {
+    "npc_greeting": "돌아왔군요, 지휘관님.",
+    "npc_warning": "적이 {minutes}분 후에 도착합니다.",
+    "player_reply": "우리는 준비됐습니다."
+  },
+  "ui": {
+    "start_button": "미션 시작",
+    "cancel_button": "취소",
+    "empty_message": "   "
+  },
+  "rewards": {
+    "gold": 1300,
+    "exp": 300,
+    "label": "미션 보상"
+  }
+}

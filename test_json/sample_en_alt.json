@@ -1,0 +1,23 @@
+{
+  "mission_meta": {
+    "quest_id": "QST-4107",
+    "region": "North Docks",
+    "briefing": "The harbor lights keep flickering every midnight. Find the source before dawn."
+  },
+  "objectives": [
+    {
+      "task_name": "Inspect the generator room",
+      "hint_text": "Listen for a metallic hum behind the cargo elevator."
+    },
+    {
+      "task_name": "Collect witness notes",
+      "hint_text": "Dock workers usually gather near the old crane at shift change."
+    }
+  ],
+  "radio_chatter": {
+    "line_a": "Control to field unit, signal quality is unstable.",
+    "line_b": "Copy that. Proceeding with manual diagnostics.",
+    "line_c": "If you see blue sparks, cut the main breaker immediately."
+  },
+  "reward_notice": "Mission complete reward: 1200 credits and one repair kit."
+}

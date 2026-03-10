@@ -1,0 +1,36 @@
+{
+  "meta": {
+    "mission_id": "MSN_1001",
+    "enabled": true,
+    "priority": 3
+  },
+  "title": "Operation Dawn",
+  "description": "Secure the outpost before sunrise.",
+  "steps": [
+    {
+      "id": 1,
+      "text": "Talk to Captain Aria.",
+      "hint": "She is near the command tent."
+    },
+    {
+      "id": 2,
+      "text": "Collect 5 energy cells.",
+      "hint": "Check the storage area behind the gate."
+    }
+  ],
+  "dialog": {
+    "npc_greeting": "Welcome back, Commander.",
+    "npc_warning": "Enemies will arrive in {minutes} minutes.",
+    "player_reply": "We are ready."
+  },
+  "ui": {
+    "start_button": "Start Mission",
+    "cancel_button": "Cancel",
+    "empty_message": "   "
+  },
+  "rewards": {
+    "gold": 1500,
+    "exp": 320,
+    "label": "Mission Reward"
+  }
+}
