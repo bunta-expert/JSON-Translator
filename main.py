@@ -169,6 +169,7 @@ class TranslatorUI(ttk.Window):
         ttk.Label(frame, text="Model").grid(row=0, column=1, sticky="w")
         self.model_combo = ttk.Combobox(frame, textvariable=self.model_var, state="readonly")
         self.model_combo.grid(row=1, column=1, sticky="ew", padx=(0, 8), pady=(2, 8))
+        self.model_combo.bind("<<ComboboxSelected>>", self._on_model_change)
         self._update_model_options()
 
         ttk.Label(frame, text="Source Language").grid(row=0, column=2, sticky="w")
@@ -392,11 +393,34 @@ class TranslatorUI(ttk.Window):
                 sections_enabled = self.provider_combo.cget("state") != "disabled"
 
         is_gemini_enabled = sections_enabled and self._get_active_provider() == "Gemini"
+        allowed_thinking_levels = self._get_allowed_gemini_thinking_levels(self.model_var.get())
+        supports_thinking = self._model_supports_gemini_thinking(self.model_var.get())
 
         if hasattr(self, "gemini_thinking_combo"):
-            self.gemini_thinking_combo.configure(state="readonly" if is_gemini_enabled else "disabled")
+            self.gemini_thinking_combo["values"] = allowed_thinking_levels
+
+        if self.gemini_thinking_level_var.get().strip() not in allowed_thinking_levels:
+            self.gemini_thinking_level_var.set(allowed_thinking_levels[0])
+
+        if hasattr(self, "gemini_thinking_combo"):
+            self.gemini_thinking_combo.configure(
+                state="readonly" if (is_gemini_enabled and supports_thinking) else "disabled"
+            )
         if hasattr(self, "gemini_temp_entry"):
             self.gemini_temp_entry.configure(state="normal" if is_gemini_enabled else "disabled")
+
+    def _get_allowed_gemini_thinking_levels(self, model_name: str) -> list[str]:
+        normalized_model = model_name.strip().lower()
+        if normalized_model.startswith("gemini-3.1-pro"):
+            return ["low", "medium", "high"]
+        return ["minimal", "low", "medium", "high"]
+
+    def _model_supports_gemini_thinking(self, model_name: str) -> bool:
+        normalized_model = model_name.strip().lower()
+        return not (
+            normalized_model.startswith("gemini-2.5-flash")
+            or normalized_model.startswith("gemini-2.5-pro")
+        )
 
     def _strip_trailing_commas_json(self, text: str) -> tuple[str, bool]:
         result: list[str] = []
@@ -1183,7 +1207,20 @@ class TranslatorUI(ttk.Window):
 
             thinking_level = self.gemini_thinking_level_var.get().strip()
             thinking_cls = getattr(types_module, "ThinkingConfig", None)
-            if thinking_cls is not None and thinking_level in {"minimal", "low", "medium", "high"}:
+            normalized_model = model.strip().lower()
+            supports_thinking = not (
+                normalized_model.startswith("gemini-2.5-flash")
+                or normalized_model.startswith("gemini-2.5-pro")
+            )
+            allowed_thinking_levels = self._get_allowed_gemini_thinking_levels(model)
+            if supports_thinking and thinking_cls is not None:
+                if thinking_level not in allowed_thinking_levels:
+                    thinking_level = allowed_thinking_levels[0]
+                    self._post_ui(
+                        self._append_log,
+                        f"Adjusted Gemini thinking level for model '{model}' to '{thinking_level}'.",
+                    )
+                    self._post_ui(self.gemini_thinking_level_var.set, thinking_level)
                 config_kwargs["thinking_config"] = thinking_cls(thinking_level=thinking_level)
 
             temp_str = self.gemini_temperature_var.get().strip()
@@ -1377,6 +1414,17 @@ class TranslatorUI(ttk.Window):
         self._update_model_options()
         self._refresh_api_key_summary()
         self._refresh_api_key_listbox()
+        if self._get_active_provider() == "Gemini":
+            self.gemini_thinking_level_var.set(
+                self._get_allowed_gemini_thinking_levels(self.model_var.get())[0]
+            )
+        self._update_provider_dependent_ui()
+
+    def _on_model_change(self, _event=None) -> None:
+        if self._get_active_provider() == "Gemini":
+            self.gemini_thinking_level_var.set(
+                self._get_allowed_gemini_thinking_levels(self.model_var.get())[0]
+            )
         self._update_provider_dependent_ui()
 
     def _update_model_options(self) -> None:
