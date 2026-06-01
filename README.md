@@ -8,7 +8,7 @@ Desktop JSON translation tool for game/localization workflows.
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
 ![UI](https://img.shields.io/badge/UI-Tkinter%20%2B%20ttkbootstrap-2E8B57)
 ![Providers](https://img.shields.io/badge/Providers-OpenAI%20%7C%20Gemini-0A66C2)
-![Version](https://img.shields.io/badge/Version-1.0.0-111827)
+![Version](https://img.shields.io/badge/Version-1.0.1-111827)
 
 </div>
 
@@ -141,4 +141,4 @@ test_json/          # Test sample JSON files
 ---
 
 ## License
-If you plan to publish publicly, add your preferred license file (for example, MIT).
+This project is licensed under the MIT License. See [LICENSE](./LICENSE) for details.
